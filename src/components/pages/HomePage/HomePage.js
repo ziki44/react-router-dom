@@ -14,9 +14,9 @@ import Footer from 'components/sections/Footer/Footer';
 
 function HomePage() {
   const [authorInput, setAuthorInput] = useState('');
-  const [isAuthorInputError, setIsAuthorInputError] = useState(false);
+  // const [isAuthorInputError, setIsAuthorInputError] = useState(false);
   const [messageInput, setMessageInput] = useState('');
-  const [isMessageInputError, setIsMessageInputError] = useState(false);
+  // const [isMessageInputError, setIsMessageInputError] = useState(false);
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
@@ -26,13 +26,13 @@ function HomePage() {
       })
   }, [])
 
-  const handleAuthorChange = (event) => {
-    setAuthorInput(event.target.value);
-  }
+  // const handleAuthorChange = (event) => {
+  //   setAuthorInput(event.target.value);
+  // }
 
-  const handleMessageChange = (event) => {
-    setMessageInput(event.target.value);
-  }
+  // const handleMessageChange = (event) => {
+  //   setMessageInput(event.target.value);
+  // }
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -44,9 +44,9 @@ function HomePage() {
     // Blad bedzie true/false w zaleznosci od tego, jaka jest wartosc inputa
 
     // wyswietl blad, jak pole authorInput jest puste
-    setIsAuthorInputError(authorInput.trim().length === 0)
+    // setIsAuthorInputError(authorInput.trim().length === 0)
     // wyswietl blad, jak pole messageInput ma mniej lub rowne 2 znaki
-    setIsMessageInputError(messageInput.trim().length <= 2)
+    // setIsMessageInputError(messageInput.trim().length <= 2)
 
     // if(authorInput.trim().length === 0) {
     //   setIsAuthorInputError(true)
@@ -94,7 +94,7 @@ function HomePage() {
       <WelcomeMessage>
         <h3>Add new post</h3>
       </WelcomeMessage>
-      <MessagesForm
+      {/* <MessagesForm
         handleSubmit={handleSubmit}
         authorInput={authorInput}
         handleAuthorChange={handleAuthorChange}
@@ -102,7 +102,7 @@ function HomePage() {
         handleMessageChange={handleMessageChange}
         isAuthorInputError={isAuthorInputError}
         isMessageInputError={isMessageInputError}
-      />
+      /> */}
       <WelcomeMessage>
         <p>Messages List</p>
       </WelcomeMessage>
