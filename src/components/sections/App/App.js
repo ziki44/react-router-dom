@@ -1,14 +1,31 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
 import Header from '../Header/Header';
 import MessagesForm from '../MessagesForm/MessagesForm';
 import MessagesList from '../MessagesList/MessagesList';
 import WelcomeMessage from '../WelcomeMessage/WelcomeMessage';
+
+import {
+  addMessage,
+  removeMessage,
+  getMessages
+} from '../../../helpers/http';
+
 import './App.css';
 
 function App() {
   const [authorInput, setAuthorInput] = useState('');
+  const [isAuthorInputError, setIsAuthorInputError] = useState(false);
   const [messageInput, setMessageInput] = useState('');
+  const [isMessageInputError, setIsMessageInputError] = useState(false);
   const [messages, setMessages] = useState([]);
+
+  useEffect(() => {
+    getMessages()
+      .then(data => {
+        setMessages(data);
+      })
+  }, [])
 
   const handleAuthorChange = (event) => {
     setAuthorInput(event.target.value);
@@ -20,6 +37,29 @@ function App() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    // Pole author nie moze byc puste i pole message musi miec wiecej niz 2 znaki
+    const isValid = authorInput.trim().length > 0
+      && messageInput.trim().length > 2;
+
+    // Blad bedzie true/false w zaleznosci od tego, jaka jest wartosc inputa
+
+    // wyswietl blad, jak pole authorInput jest puste
+    setIsAuthorInputError(authorInput.trim().length === 0)
+    // wyswietl blad, jak pole messageInput ma mniej lub rowne 2 znaki
+    setIsMessageInputError(messageInput.trim().length <= 2)
+
+    // if(authorInput.trim().length === 0) {
+    //   setIsAuthorInputError(true)
+    // } else {
+    //   setIsAuthorInputError(false)
+    // }
+
+
+    if(!isValid) {
+      // jesli w funkcji uzywamy return, to JS nie wejdzie do dalszego wywolania funkcji
+      return;
+    }
 
     // Date.now() zwraca obecny czas jako timestamp
     // timestamp to jest liczba sekund ktora uplynela od 1.01.1970
@@ -40,19 +80,14 @@ function App() {
     setMessageInput('');
   }
 
-  const addMessage = (messageToAdd) => {
-    fetch('http://localhost:5000/messages', {
-      method: 'POST',
-      headers: {
-        "Content-type": "application/json"
-      },
-      body: JSON.stringify(messageToAdd)
+  const handleMessageRemove = (id) => {
+    const filteredMessage = messages.filter(message => {
+      return message.id !== id
     })
-  }
 
-  // Zadanie dla was:
-  // 1. Zrob obsluge pobierania wszystkich pobierania
-  // 2. Przy kazdym elemencie listy, dorob przycick X, ktory bedzie usuwal wiadomosc z serwera
+    removeMessage(id)
+    setMessages(filteredMessage)
+  }
 
   return (
     <div>
@@ -66,11 +101,16 @@ function App() {
         handleAuthorChange={handleAuthorChange}
         messageInput={messageInput}
         handleMessageChange={handleMessageChange}
+        isAuthorInputError={isAuthorInputError}
+        isMessageInputError={isMessageInputError}
       />
       <WelcomeMessage>
         <p>Messages List</p>
       </WelcomeMessage>
-      <MessagesList messages={messages}/>
+      <MessagesList
+        messages={messages}
+        handleMessageRemove={handleMessageRemove}
+      />
     </div>
   );
 }

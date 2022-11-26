@@ -1,3 +1,4 @@
+import Button from "../../atoms/Button/Button";
 import Input from "../../atoms/Input/Input";
 
 function MessagesForm(props) {
@@ -11,6 +12,11 @@ function MessagesForm(props) {
             onChange={props.handleAuthorChange}
           />
         </label>
+        {
+          props.isAuthorInputError
+            ? <small>Pole author nie moze byc puste </small>
+            : null
+        }
       </div>
       <div>
         <label>
@@ -20,8 +26,15 @@ function MessagesForm(props) {
             onChange={props.handleMessageChange}
           />
         </label>
+        {
+          props.isMessageInputError
+            ? <small>Pole message musi miec minimum 3 znaki</small>
+            : null
+        }
       </div>
-      <button>Send</button>
+      <Button
+        text="Send"
+      />
     </form>
   )
 }
