@@ -1,4 +1,4 @@
-import Link from "../../atoms/Link/Link";
+import { Link } from 'react-router-dom'
 
 function Header(props) {
   return (
@@ -7,7 +7,10 @@ function Header(props) {
       <nav>
         <ul>
           <li>
-            <Link href="#" text="Dodaj nowy post"/>
+            {/* komponent Link od react-router-dom, rozni sie tym, ze zamiast atrybutu href jest atrybut to */}
+            <Link to="/add">
+              Dodaj nowy post
+            </Link>
           </li>
         </ul>
       </nav>

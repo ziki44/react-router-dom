@@ -1,19 +1,18 @@
 import { useState, useEffect } from 'react';
 
-import Header from '../Header/Header';
-import MessagesForm from '../MessagesForm/MessagesForm';
-import MessagesList from '../MessagesList/MessagesList';
-import WelcomeMessage from '../WelcomeMessage/WelcomeMessage';
+import Header from 'components/sections/Header/Header';
+import MessagesForm from 'components/sections/MessagesForm/MessagesForm';
+import MessagesList from 'components/sections/MessagesList/MessagesList';
+import WelcomeMessage from 'components/sections/WelcomeMessage/WelcomeMessage';
 
 import {
   addMessage,
   removeMessage,
   getMessages
-} from '../../../helpers/http';
+} from 'helpers/http';
+import Footer from 'components/sections/Footer/Footer';
 
-import './App.css';
-
-function App() {
+function HomePage() {
   const [authorInput, setAuthorInput] = useState('');
   const [isAuthorInputError, setIsAuthorInputError] = useState(false);
   const [messageInput, setMessageInput] = useState('');
@@ -111,8 +110,9 @@ function App() {
         messages={messages}
         handleMessageRemove={handleMessageRemove}
       />
+      <Footer />
     </div>
   );
 }
 
-export default App;
+export default HomePage;
